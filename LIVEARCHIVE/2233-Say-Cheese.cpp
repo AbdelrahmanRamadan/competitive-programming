@@ -1,5 +1,27 @@
+/*input
+1
+20 20 20 1
+0 0 0
+0 0 10
+1
+5 0 0 4
+0 0 0
+10 0 0
+-1
+*/
+/*
+	@author: Abdelrahman Ramadan
+	@email: abdelrahman0xff@gmail.com
+	@repo: https://github.com/AbdelrahmanRamadan/competitive-programming
+	@problem: 2233 - Say Cheese
+	@link: https://icpcarchive.ecs.baylor.edu/index.php?option=com_onlinejudge&Itemid=8&category=35&page=show_problem&problem=234
+	@judge: LIVEARCHIVE
+	@idea: dijkstra with holes as verticies and pair wise distances as weighted edges 
+*/
+
 #include <bits/stdc++.h>
 using namespace std;
+
 typedef long double myf;
 typedef pair<myf, int> pfi;
 
