@@ -16,7 +16,7 @@
 	@problem: 2233 - Say Cheese
 	@link: https://icpcarchive.ecs.baylor.edu/index.php?option=com_onlinejudge&Itemid=8&category=35&page=show_problem&problem=234
 	@judge: LIVEARCHIVE
-	@idea: dijkstra with holes as verticies and pair wise distances as weighted edges 
+	@idea: dijkstra with holes as verticies and pair-wise distances as weighted edges 
 */
 
 #include <bits/stdc++.h>

@@ -1,4 +1,6 @@
 /*input
+1
+18 0
 */
 /*
     @author: Abdelrahman Ramadan
@@ -7,7 +9,7 @@
     @problem: Circle City
     @link: https://www.hackerrank.com/challenges/circle-city/problem
     @judge: HackerRank
-    @idea: optimized brute force
+    @idea: optimized brute force (loop over all points on one axis and calculate the other access by Pythagorean Theorem)
 */
 
 #include <bits/stdc++.h>
@@ -26,7 +28,9 @@ int main() {
         int d, k;
         cin >> d >> k;
         int lim = sqrt(d) + 1e-9;
+        int lim2 = sqrt(d / 2) + 1e-9;
         k -= (lim * lim == d) * 4;
+        k -= (lim2 * lim2 == d - lim2 * lim2) * 4;
         for (int x = 1; x * x < d - x * x; ++x)
             if (vis.count(d - x * x))
                 k -= 8;
