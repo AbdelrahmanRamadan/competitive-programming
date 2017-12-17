@@ -10,35 +10,63 @@
 	@author: Abdelrahman Ramadan
 	@email: abdelrahman0xff@gmail.com
 	@repo: https://github.com/AbdelrahmanRamadan/competitive-programming
-	@problem:
-	@link:
-	@judge:
-	@idea:
+	@problem: Jim Beam
+	@link: https://www.hackerrank.com/challenges/jim-beam/problem
+	@judge: Hackerrank
+	@idea: check if two segments intersect
 */
 
 #include <bits/stdc++.h>
+#define EPS 1e-9
+#define X real()
+#define Y imag() 
 using namespace std;
-struct point {
-	int x, y;
-} p[4];
+typedef long double myf;
+typedef complex<myf> point;
 
-bool orientation(point a, point b, point c) {
-	return 1LL * (b.x - a.x) * (c.y - a.y) - 1LL * (b.y - a.y) * (c.x - a.x) < 0;
+inline myf cross(const point& A, const point& B) {
+	return A.X * B.Y - B.X * A.Y;
+}
+
+inline point vec(point a, point b) {
+	return b - a;
+}
+
+pair<point, int> in(point a0, point a1, point b0, point b1) {
+	myf s = cross(vec(b0, a0), vec(a0, a1)) / cross(vec(b0, b1), vec(a0, a1));
+	return { vec(b0, b1) * s + b0, isnan(s) + isinf(s) * 2 };
+}
+bool operator < (const point& a, const point& b) {
+	return a.X + EPS < b.X || (a.X - b.X < EPS && a.Y + EPS < b.Y);
+}
+
+bool seg_intersect(point a, point b, point c, point d) {
+	if (b < a) swap(a, b);
+	if (d < c) swap(c, d);
+	
+	auto p = in(a, b, c, d);
+	if (p.second == 2)
+		return false;
+
+	if(p.second == 1)
+		return !((a < c && b < c) || (d < a && d < b));
+	
+	return !((p.first < a || b < p.first) || (p.first < c || d < p.first));
+}
+
+istream& operator >> (istream& fin, point& o) {
+	int x, y;
+	fin >> x >> y;
+	o = point(x, y);
+	return fin;
 }
 
 int main() {
 	int T;
 	cin >> T;
 	while (T--) {
-		for (int i = 0; i < 3; ++i)
-			cin >> p[i].x >> p[i].y;
-
-		bool flag = true;
-		for (int i = 0; i < 4; i += 2) 
-			flag &= orientation(p[i], p[i + 1], p[(i + 2) % 4])
-				!= orientation(p[i], p[i + 1], p[(i + 3) % 4]);
-
-		cout << (flag ? "NO" : "YES") << endl;
-	}
-	return 0;
+		point a, b, c, d{ 0, 0 };
+		cin >> a >> b >> c;
+		cout << (seg_intersect(a, b, c, d) ? "NO" : "YES") << endl;
+	} 
 }
