@@ -19,10 +19,10 @@
 	@author: Abdelrahman Ramadan
 	@email: abdelrahman0xff@gmail.com
 	@repo: https://github.com/AbdelrahmanRamadan/competitive-programming
-	@problem:
-	@link:
-	@judge:
-	@idea:
+	@problem: ANTTT - The Ant
+	@link: http://www.spoj.com/problems/ANTTT/
+	@judge: SPOJ
+	@idea: add edge if two segments intersect, then check connectivity using dsu or flood fill
 */
 
 #include <bits/stdc++.h>
