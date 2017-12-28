@@ -38,45 +38,17 @@ inline point unit(point a) {
 	return a / dist(a);
 }
 
-// bool operator < (const point& a, const point& b) {
-// 	return a.X + EPS < b.X || (a.X - b.X < EPS && a.Y + EPS < b.Y);
-// }
+bool operator < (const point& a, const point& b) {
+	return a.X + EPS < b.X || (a.X - b.X < EPS && a.Y + EPS < b.Y);
+}
 
 bool operator == (const point& a, const point& b) {
 	return fabs(a.X - b.X) < EPS && fabs(a.Y - b.Y) < EPS;
 }
 
-myf cosRule(myf a, myf b, myf c){
-	return acosl((a * a + b * b - c * c) / (2 * a * b));
-}
-
-int circleCircleIntersection(const point &c1, const myf &r1, const point &c2, const myf &r2, point &res1, point &res2){
-	// 3awza ttzabat fel-library
-	if(c1 == c2 && fabs(r1 - r2) < EPS){
-		res1 = res2 = c1;
-		return fabs(r1) < EPS ? 1 : OO;
-	}
-	myf len = dist(vec(c1, c2));
-	if (fabs(len - (r1 + r2)) < EPS || fabs(fabs(r1 - r2) - len) < EPS){
-		point d, c;
-		myf r;
-		if (r1 > r2)
-			d = vec(c1,c2), c = c1, r = r1;
-		else
-			d = vec(c2,c1), c = c2, r = r2;
-		res1 = res2 = unit(d) * r + c;
-		return 1;
-	}
-	if (len > r1 + r2 || len < fabs(r1 - r2))
-		return 0;
-	myf a = cosRule(r1, len, r2);
-	point c1c2 = unit(vec(c1,c2)) * r1;
-	res1 = rotate(c1c2, a) + c1;
-	res2 = rotate(c1c2, -a) + c1;
-	return 2;
-}
-
-int main() {
-	
-	return 0;
+bool point_in_convex(const vector<point>& pnts, const point& p) {
+	point c = pnts[0];
+	for (point& i : pnts)
+		c = min(c, i);
+	int a = upper_bound(pnts.begin(), pnts.end());
 }
