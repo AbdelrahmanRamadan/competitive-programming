@@ -96,18 +96,6 @@ inline myf cross(const point& a, const point& b) {
 	return a.X * b.Y - a.Y * b.X;
 }
 
-int in_poly(const vector<point>& v, point p) {
-	int wn = 0;
-	for (int i = 0, len = v.size(); i < len; ++i) {
-		int j = i == (len - 1) ? 0 : (i + 1);
-		if (v[i].Y <= p.Y + EPS)
-			wn += (v[j].Y > p.Y + EPS) && cross(v[j] - v[i], p - v[i]) > EPS;
-		else
-			wn -= (v[j].Y <= p.Y + EPS) && cross(v[j] - v[i], p - v[i]) < EPS;
-	}
-	return wn;
-}
-
 int winding(const point& a, const point& b) {
 	if (a.Y <= EPS){
 		if (b.Y > EPS && cross(b - a, point(0, 0) - a) > EPS)
