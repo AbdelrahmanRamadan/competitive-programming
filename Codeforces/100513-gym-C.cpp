@@ -1,30 +1,23 @@
 /*input
 4
-0 3
-a=4
-b=1
-c=2
+0 2
+enabled=true
+foreground=white
 1 2
-a=1
-b=2
-2 2
-a=2
-b=3
-2 2
-a=8
-c=1
-11
-3 a
-3 b
-3 c
-4 a
-4 b
-4 c
-4 d
-2 a
-2 b
-2 c
-1 b
+enabled=false
+fontSize=12
+2 3
+enabled=true
+foreground=black
+caption=OK
+2 1
+fontSize=10
+5
+3 enabled
+4 enabled
+3 fontSize
+4 foreground
+2 caption
 */
 /*
 	@author: Abdelrahman Ramadan
@@ -33,97 +26,66 @@ c=1
 	@problem: C. Component Tree
 	@link: http://codeforces.com/gym/100513/problem/C
 	@judge: Codeforces Gym
-	@idea:
+	@idea: ordering nodes by time of visiting and leaving during dfs
+		* the obvious use of the dfs in/out time (order) is represent each subtree as a single substring in an array
+		* it's also possible to do a very important function that's done otherwise using persistent data structures or
+		 HLD which is representing a single path in the tree and calculating its value in log(n) time using binary search:
+		 By pushing each node twice, push it once with the accumulative value from the root to this node when
+		 visiting the node, and push it again when leaving the node with the last value was in the array before pushing the
+		 node for the first time (inverting the node value)
 */
 
 #include <bits/stdc++.h>
+#define fi first
+#define se second
 using namespace std;
 const int MAX = 300300;
-const int LG = 18;
-const int SQRT = 1000; // sqrt(MAX / LG)
 
 vector<int> adj[MAX];
-unordered_map<int, int> mp[MAX];
-unordered_map<string, int> hashed;
-vector<string> vec;
-int n, q, par[MAX], mx[MAX], vis[MAX], H;
+unordered_map<string, vector<pair<int, string> > > vis;
+unordered_map<string, string> mp[MAX];
+int n, q, par, _time, in[MAX], out[MAX];
 char str[20];
 
-int maxi(int u) {
-	int d = 0;
-	for (int i = 0, len = adj[u].size(); i < len; ++i) {
-		int temp = maxi(adj[u][i]);
-		if (temp > d) {
-			d = temp;
-			mx[u] = i;
-		}
-	}
-	return d + 1;
-}
-
-void dfs(int u, int d) {
-	if (d % SQRT == 0) {
-		int v = par[u];
-		int x = 0;
-		while (v) {
-			for (auto i : mp[v])
-				if (!mp[u].count(i.first))
-					mp[u][i.first] = i.second;
-			if (vis[v])
-				break;
-			v = par[v];
-		}
-		vis[u] = 1;
+void dfs(int u) {
+	in[u] = ++_time;
+	for (auto& p : mp[u]) {
+		auto& v = vis[p.fi];
+		v.push_back({ in[u], p.se });
+		p.se = v.size() > 1 ? v[v.size() - 2].se : "N/A";
 	}
 
 	for (int i = 0, len = adj[u].size(); i < len; ++i)
-		dfs(adj[u][i], mx[u] == i ? (d + 1) : 1);
+		dfs(adj[u][i]);
+
+	out[u] = ++_time;
+	for (auto& p : mp[u])
+		vis[p.fi].push_back({ out[u], p.se });
+	
 }
 
 int main() {
 	scanf("%d", &n);
-	for (int i = 1, m; i <= n; ++i) {
-		scanf("%d %d", &par[i], &m);
-		adj[par[i]].push_back(i);
+	for (int i = 1, m, u; i <= n; ++i) {
+		scanf("%d %d", &u, &m);
+		adj[u].push_back(i);
 		while (m--) {
 			scanf("%s", str);
 			int x = find(str, str + strlen(str), '=') - str;
 			str[x++] = '\0';
-			string s1 = string(str), s2 = string(str + x);
-			if (!hashed.count(s1)) {
-				hashed[s1] = H++;
-				vec.push_back(s1);
-			}
-			if (!hashed.count(s2)) {
-				hashed[s2] = H++;
-				vec.push_back(s2);
-			}
-
-			mp[i][hashed[s1]] = hashed[s2];
+			mp[i][string(str)] = string(str + x);
 		}
 	}
 
-	maxi(1);
-	dfs(1, 1);
-
+	dfs(1);
 
 	scanf("%d", &q);
 	while (q--) {
 		int c;
 		scanf("%d%s", &c, str);
-		if (!hashed.count(string(str))) {
-			puts("N/A");
-			continue;
-		}
-		int s = hashed[string(str)], ans = -1;
-		int lim = SQRT * 10;
-		for (int i = 0; i <= lim && c; ++i, c = par[c])
-			if (mp[c].count(s)) {
-				ans = mp[c][s];
-				break;
-			}
-		string ans_str = ans == -1 ? "N/A" : vec[ans];
-		printf("%s\n", ans_str.c_str());
+		auto& v = vis[string(str)];
+		auto it = lower_bound(v.begin(), v.end(), make_pair(in[c] + 1, string()));
+		printf("%s\n", (it != v.begin() ? (--it) -> se.c_str() : "N/A"));
 		fflush(stdout);
 	}
 	return 0;

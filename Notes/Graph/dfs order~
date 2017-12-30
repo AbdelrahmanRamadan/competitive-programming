@@ -1,0 +1,3 @@
+* the obvious use of the dfs in/out time (order) is represent each subtree as a single substring in an array
+
+* it's also possible to do a very important function that's done otherwise using persistent data structures or HLD which is representing a single path in the tree an calculating it's value in log(n) time using binary search: By pushing each node twice, push it 

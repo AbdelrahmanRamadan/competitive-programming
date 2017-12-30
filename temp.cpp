@@ -18,58 +18,94 @@ height=500
 */
 
 #include <bits/stdc++.h>
-#define X real()
-#define Y imag()
-#define EPS 1e-9
 using namespace std;
-typedef long double myf;
-typedef complex<myf> point;
-const myf PI = acos(-1.0L);
+const int MAX = 300300;
+const int LG = 18;
+const int SQRT = 1000; // sqrt(MAX / LG)
 
-/*
+vector<int> adj[MAX];
+unordered_map<int, int> mp[MAX];
+unordered_map<string, int> hashed;
+vector<string> vec;
+int n, q, par[MAX], mx[MAX], vis[MAX], H;
+char str[20];
 
-			deg		getAngle	asin	acos	atan		atan2
-(1, 0)		0		0 | 2PI		0		0		0			0
-(1, 1)		45		PI/4		PI/4	PI/4	PI/4		PI/4
-(0, 1)		90		PI/2		PI/2	PI/2	(-|+)PI/2	PI/2
-(-1, 1)		135		3PI/4		PI/4	3PI/4	-PI/4		3PI/4
-(-1, 0)		180		PI			0		PI		0			(-|+)PI
-(-1,-1)		225		5PI/4		-PI/4	3PI/4	PI/4		-3PI/4
-(0, -1)		270		3PI/2		-PI/2	PI/2	(-|+)PI/2	-PI/2
-(1, -1)		315		7PI/4		-PI/4	PI/4	-PI/4		-PI/4
-(1, 0)		360		2PI | 0		0		0		0			0
-*/
-
-myf getAngle(myf x, myf y) {
-	// returns ccw angle starting from 0 in the range 0 to 2 * PI
-	myf theta = atan2(y, x);
-	if (theta < -EPS)
-		theta += 2 * PI;
-	return theta;
-}
-
-inline myf cross(const point& a, const point& b) {
-	return a.X * b.Y - a.Y * b.X;
-}
-
-// wn_PnPoly(): winding number test for a point in a polygon
-//      Input:   P = a point,
-//               V[] = vertex points of a polygon V[n+1] with V[n]=V[0]
-//      Return:  wn = the winding number (=0 only when P is outside), undefined when point on boundry
-int in_poly(const vector<point>& v, point p) {
-	// check if point is on boundry before calling this function
-	int wn = 0;
-	for (int i = 0, len = v.size(); i < len; ++i) {
-		int j = i == (len - 1) ? 0 : (i + 1);
-		if (v[i].Y <= p.Y + EPS)
-			wn += (v[j].Y > p.Y + EPS) && cross(v[j] - v[i], p - v[i]) > EPS;
-		else
-			wn -= (v[j].Y <= p.Y + EPS) && cross(v[j] - v[i], p - v[i]) < EPS;
+int maxi(int u) {
+	int d = 0;
+	for (int i = 0, len = adj[u].size(); i < len; ++i) {
+		int temp = maxi(adj[u][i]);
+		if (temp > d) {
+			d = temp;
+			mx[u] = i;
+		}
 	}
-	return wn;
+	return d + 1;
+}
+
+void dfs(int u, int d) {
+	if (d % SQRT == 0) {
+		int v = par[u];
+		int x = 0;
+		while (v) {
+			for (auto i : mp[v])
+				if (!mp[u].count(i.first))
+					mp[u][i.first] = i.second;
+			if (vis[v])
+				break;
+			v = par[v];
+		}
+		vis[u] = 1;
+	}
+
+	for (int i = 0, len = adj[u].size(); i < len; ++i)
+		dfs(adj[u][i], mx[u] == i ? (d + 1) : 1);
 }
 
 int main() {
-	cout << fmod(10.3, 3) << endl;
+	scanf("%d", &n);
+	for (int i = 1, m; i <= n; ++i) {
+		scanf("%d %d", &par[i], &m);
+		adj[par[i]].push_back(i);
+		while (m--) {
+			scanf("%s", str);
+			int x = find(str, str + strlen(str), '=') - str;
+			str[x++] = '\0';
+			string s1 = string(str), s2 = string(str + x);
+			if (!hashed.count(s1)) {
+				hashed[s1] = H++;
+				vec.push_back(s1);
+			}
+			if (!hashed.count(s2)) {
+				hashed[s2] = H++;
+				vec.push_back(s2);
+			}
+
+			mp[i][hashed[s1]] = hashed[s2];
+		}
+	}
+
+	maxi(1);
+	dfs(1, 1);
+
+
+	scanf("%d", &q);
+	while (q--) {
+		int c;
+		scanf("%d%s", &c, str);
+		if (!hashed.count(string(str))) {
+			puts("N/A");
+			continue;
+		}
+		int s = hashed[string(str)], ans = -1;
+		int lim = SQRT * 10;
+		for (int i = 0; i <= lim && c; ++i, c = par[c])
+			if (mp[c].count(s)) {
+				ans = mp[c][s];
+				break;
+			}
+		string ans_str = ans == -1 ? "N/A" : vec[ans];
+		printf("%s\n", ans_str.c_str());
+		fflush(stdout);
+	}
 	return 0;
 }
