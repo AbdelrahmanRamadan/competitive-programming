@@ -1,0 +1,6 @@
+sudo apt-get install default-jre
+sudo apt-get install icedtea-netx
+
+* To run the arena:
+
+javaws -Xignoreheaders -headless Downloads/ContestAppletProd.jnlp &
