@@ -1,0 +1,147 @@
+<JPanel>
+	<VerticalPanel>
+		<JTabbedPane>
+			<JPanel Name="General/Testing">
+				<VerticalPanel>
+					<VerticalPanel BorderTitle="General">
+						<FilePanel Action="actLocalDirField"/>
+                        <ActionStateCheckBox Action="actAutoFileSync"/>
+                        <ActionStateCheckBox Action="actPreferFileOpen"/>
+						<HorizontalPanel>
+							<ActionLabel Action="actTimeout"/>
+							<ActionSpinner Action="actTimeout"/>
+						</HorizontalPanel>
+						<JLabel Text="Note that the timeout is for"/>
+						<JLabel Text="all test cases combined!"/>
+					</VerticalPanel>
+					<VerticalPanel BorderTitle="Testing">
+						<FontPanel Action="actTestFont"/>
+						<GridPanel GridDimensions="1,2">
+							<ColorSwatchDropdown Action="actTestBackground"/>
+							<ColorSwatchDropdown Action="actTestForeground"/>
+						</GridPanel>
+					</VerticalPanel>
+					<VerticalPanel BorderTitle="Problem Timer">
+						<GridPanel GridDimensions="3,2">
+							<ActionLabel Action="actTimerDelay"/>
+							<ActionSpinner Action="actTimerDelay"/>
+							<ColorSwatchDropdown Action="actTimerLEDColor" />
+							<ColorSwatchDropdown Action="actTimerBGColor" />
+							<ColorSwatchDropdown Action="actTimerUnlitColor" />
+							<ActionStateCheckBox Action="actShowTimer"/>
+						</GridPanel>
+					</VerticalPanel>
+				</VerticalPanel>
+			</JPanel>
+			<JPanel Name="Editor">
+				<VerticalPanel>
+					<VerticalPanel BorderTitle="Editor Settings">
+						<HorizontalPanel>
+							<GridPanel GridDimensions="8,2">
+								<ColorSwatchDropdown Action="actForegroundColor"/>
+								<ColorSwatchDropdown Action="actBackgroundColor"/>
+								<ColorSwatchDropdown Action="actSelectionColor"/>
+								<ColorSwatchDropdown Action="actSelectedTextColor"/>
+								<ColorSwatchDropdown Action="actSyntaxKeywordColor"/>
+								<ColorSwatchDropdown Action="actSyntaxTypeColor"/>
+								<ColorSwatchDropdown Action="actSyntaxOperatorColor"/>
+								<ColorSwatchDropdown Action="actSyntaxStringColor"/>
+								<ColorSwatchDropdown Action="actSyntaxCommentColor"/>
+								<ColorSwatchDropdown Action="actSyntaxDirectiveColor"/>
+								<ColorSwatchDropdown Action="actSyntaxClassColor"/>
+								<ColorSwatchDropdown Action="actSyntaxTagColor"/>
+								<ColorSwatchDropdown Action="actMatchingColor"/>
+								<ActionStateCheckBox Action="actDoMatching"/>
+								<ActionLabel Action="actTabWidth"/>
+								<ActionSpinner Action="actTabWidth"/>
+							</GridPanel>
+						</HorizontalPanel>
+						<FontPanel Action="actCodeFont"/>
+					</VerticalPanel>
+				</VerticalPanel>
+			</JPanel>
+			<JPanel Name="Languages">
+				<GridPanel GridDimensions="2,2">
+					<HorizontalPanel BorderTitle="Java">
+						<GridPanel GridDimensions="4,1">
+							<ActionLabel Action="actJavaFileName"/>
+							<ActionLabel Action="actJavaCompileCommand"/>
+							<ActionLabel Action="actJavaRunCommand"/>
+							<ActionLabel Action="actJavaOverride"/>
+						</GridPanel>
+						<GridPanel GridDimensions="4,1">
+							<ActionTextField Action="actJavaFileName" Columns="25"/>
+							<ActionTextField Action="actJavaCompileCommand" Columns="25"/>
+							<ActionTextField Action="actJavaRunCommand" Columns="25"/>
+							<FilePanel Action="actJavaOverride"/>
+						</GridPanel>
+					</HorizontalPanel>
+					<HorizontalPanel BorderTitle="C++">
+						<GridPanel GridDimensions="6,1">
+							<ActionLabel Action="actCPPFileName"/>
+							<ActionLabel Action="actCPPCompileCommand"/>
+							<ActionLabel Action="actCPPRunCommand"/>
+							<ActionLabel Action="actCPPOverride"/>
+							<ActionLabel Action="actCPPLLType"/>
+							<ActionLabel Action="actCPPLLConst"/>
+						</GridPanel>
+						<GridPanel GridDimensions="6,1">
+							<ActionTextField Action="actCPPFileName" Columns="25"/>
+							<ActionTextField Action="actCPPCompileCommand" Columns="25"/>
+							<ActionTextField Action="actCPPRunCommand" Columns="25"/>
+							<FilePanel Action="actCPPOverride"/>
+							<ActionTextField Action="actCPPLLType" Columns="25"/>
+							<GridPanel GridDimensions="1,4">
+								<ActionLabel Action="actCPPLLPrefix"/>
+								<ActionTextField Action="actCPPLLPrefix" Columns="7"/>
+								<ActionLabel Action="actCPPLLPostfix"/>
+								<ActionTextField Action="actCPPLLPostfix" Columns="7"/>
+							</GridPanel>
+						</GridPanel>
+					</HorizontalPanel>
+					<HorizontalPanel BorderTitle="C#">
+						<GridPanel GridDimensions="4,1">
+							<ActionLabel Action="actCSharpFileName"/>
+							<ActionLabel Action="actCSharpCompileCommand"/>
+							<ActionLabel Action="actCSharpRunCommand"/>
+							<ActionLabel Action="actCSharpOverride"/>
+						</GridPanel>
+						<GridPanel GridDimensions="4,1">
+							<ActionTextField Action="actCSharpFileName" Columns="25"/>
+							<ActionTextField Action="actCSharpCompileCommand" Columns="25"/>
+							<ActionTextField Action="actCSharpRunCommand" Columns="25"/>
+							<FilePanel Action="actCSharpOverride"/>
+						</GridPanel>
+					</HorizontalPanel>
+					<HorizontalPanel BorderTitle="Visual Basic">
+						<GridPanel GridDimensions="4,1">
+							<ActionLabel Action="actVBFileName"/>
+							<ActionLabel Action="actVBCompileCommand"/>
+							<ActionLabel Action="actVBRunCommand"/>
+							<ActionLabel Action="actVBOverride"/>
+						</GridPanel>
+						<GridPanel GridDimensions="4,1">
+							<ActionTextField Action="actVBFileName" Columns="25"/>
+							<ActionTextField Action="actVBCompileCommand" Columns="25"/>
+							<ActionTextField Action="actVBRunCommand" Columns="25"/>
+							<FilePanel Action="actVBOverride"/>
+						</GridPanel>
+					</HorizontalPanel>
+				</GridPanel>
+			</JPanel>
+			<VerticalPanel Name="Template Editor">
+				<EditorPanel DispatcherName="TemplateEditor" />
+				<HorizontalPanel>
+					<JButton Action="actOpenTemplate"/>
+					<JButton Action="actSaveTemplate"/>
+					<JButton Action="actSaveTemplateAs"/>
+					<JButton Action="actOpenDefaultTemplate"/>
+				</HorizontalPanel>
+			</VerticalPanel>
+		</JTabbedPane>
+		<JPanel>
+			<JButton Action="actCommitConfig"/>
+			<JButton Action="actCancelConfig"/>
+		</JPanel>
+	</VerticalPanel>
+</JPanel>

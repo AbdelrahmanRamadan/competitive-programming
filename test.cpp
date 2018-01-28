@@ -1,18 +1,12 @@
-#include <bits/stdc++.h>
-using namespace std;
-int v[10];
-int main() {
-	set<int, function<bool(int, int)> > s([&] (int a, int b) {
-		return v[a] < v[b];
-	});
+/*
+	v1 = 4anta
+	v2 = person
+	c + v1 * t == v2 * t
+	t = c / (v2 +- v1)
+	if ccw
+		t = c1 / (v2 - v1)
+	if cw
+		t = c2 / (v2 + v1)
 
-	for (int i = 1; i < 5; ++i) {
-		v[i] = 5 - i;
-		s.insert(i);
-	}
-	v[0] = 3;
-	cout << *s.lower_bound(0) << endl;
-	for (auto i : s)
-		cout << i << ":" << v[i] << endl;
-	return 0;
-}
+
+*/

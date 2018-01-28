@@ -1,0 +1,15 @@
+import java.util.*;
+import java.util.regex.*;
+import java.text.*;
+import java.math.*;
+
+
+public class <%:class-name%>
+{
+	public <%:return-type%> <%:method-name%>(<%:param-list%>)
+	{
+		<%:set-caret%>
+	}
+	
+<%:testing-code%>
+}

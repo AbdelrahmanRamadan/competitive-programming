@@ -1,0 +1,11 @@
+* in order to turn group of segments into non-overlapping segments such that each new segments is fully contained in one or more old segments and without being partially contained in any old segment, use this algorithm:
+for (pair<int, int> i : old) {
+	v.push_back(i.fi);
+	v.push_back(i.se + 1);
+}
+sort(v.begin(), v.end());
+v.resize(unique(v.begin(), v.end()) - v.begin());
+
+for (int i = 0; i < n; ++i) {
+	// new segment [ v[i], v[i + 1] [
+}
